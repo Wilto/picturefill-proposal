@@ -82,7 +82,10 @@
                   // When the image is loaded, set a width equal to that of the original’s intrinsic width divided by the screen resolution:
                   newImg.onload = function() {
                     // Clone the original image into memory so the width is unaffected by page styles:
-                    this.width = ( this.cloneNode( true ).width / resMatch );
+                    var w = this.cloneNode( true ).width;
+                    if (w > 0) {
+                      this.width = ( w / resMatch );
+                    }
                   }
                   picImg.parentNode.replaceChild( newImg, picImg );
                 }
