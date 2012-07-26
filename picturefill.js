@@ -22,6 +22,19 @@
   }
 
   w.picturefill = function() {
+    function _copyAttributes(src, tar) {
+      if (src.getAttribute( "width" ) && src.getAttribute( "height" )) {
+        tar.width = src.getAttribute( "width" );
+        tar.height = src.getAttribute( "height" );
+      }
+      if (src.getAttribute( "title" )) {
+        tar.title = src.getAttribute( "title" );
+      }
+      if (src.getAttribute( "class" )) {
+        tar.setAttribute ("class", src.getAttribute( "class" ));
+      }
+    }
+
     var ps = w.document.getElementsByTagName( "picture" );
 
     // Loop the pictures
@@ -87,6 +100,7 @@
                       this.width = ( w / resMatch );
                     }
                   }
+                  _copyAttributes(match, newImg);
                   picImg.parentNode.replaceChild( newImg, picImg );
                 }
                 break; // We’ve matched, so bail out of the loop here.
@@ -95,6 +109,7 @@
         } else {
           // No `srcset` in play, so just use the `src` value:
           picImg.src = match.getAttribute( "src" );
+          _copyAttributes(match, picImg);
         }
       }
     }
