@@ -78,7 +78,7 @@
         }
 
         if( srcset ) {
-            var screenRes = ( prefHD && w.devicePixelRatio ) || 1, // Is it worth looping through reasonable matchMedia values here?
+            var screenRes = ( w.devicePixelRatio ) || 1, // Is it worth looping through reasonable matchMedia values here?
               sources = srcset.split(","); // Split comma-separated `srcset` sources into an array.
 
             hasHD = w.devicePixelRatio > 1;
@@ -92,14 +92,6 @@
                   var newImg = document.createElement("img");
 
                   newImg.src = source[0];
-                  // When the image is loaded, set a width equal to that of the original’s intrinsic width divided by the screen resolution:
-                  newImg.onload = function() {
-                    // Clone the original image into memory so the width is unaffected by page styles:
-                    var w = this.cloneNode( true ).width;
-                    if (w > 0) {
-                      this.width = ( w / resMatch );
-                    }
-                  }
                   _copyAttributes(match, newImg);
                   picImg.parentNode.replaceChild( newImg, picImg );
                 }
@@ -113,33 +105,6 @@
         }
       }
     }
-    /*
-// Manual resolution switching, to simulate UA interference.
-    if( hasHD ){
-      var body = w.document.getElementsByTagName("body")[0],
-        prevSwitch = w.document.getElementById( "#toggle-res" ),
-        picSwitch = w.document.createElement( "a" );
-
-      if( prevSwitch ){
-        body.removeChild( prevSwitch );
-      }
-
-      picSwitch.id = "toggle-res";
-      picSwitch.href = "#";
-      picSwitch.innerHTML = ( prefHD ? "S" : "H" ) + "D only";
-      picSwitch.title = "Switch images to " + ( prefHD ? "Standard" : "High" ) + "Definition";
-      picSwitch.className = "pf-pref pf-pref-" + ( prefHD ? "standard" : "high" );
-
-      body.insertBefore( picSwitch, body.children[0] );
-
-      picSwitch.onclick = function(){
-        prefHD = !prefHD;
-        if( w.localStorage ){
-          w.localStorage[ "picturefill-prefHD" ] = prefHD;
-        }
-        return false;
-      };
-    }*/
   };
 
   // Run on resize and domready (w.load as a fallback)
